@@ -47,11 +47,26 @@ restart Jellyfin.
 - Resume from the position stored in Jellyfin
 - Jellyfin installations hosted under a URL base path
 
+## Recommended IINA companion plugin
+
+For automatic Jellyfin subtitle loading and bi-directional playback-progress
+sync, install [mhajder/iina-jellyfin](https://github.com/mhajder/iina-jellyfin)
+in IINA:
+
+1. Open IINA → Settings → Plugins.
+2. Choose **Install from GitHub…**.
+3. Enter `mhajder/iina-jellyfin`.
+
+This Jellyfin server plugin supplies the **Open in IINA** action in Jellyfin
+Web. The companion IINA plugin handles subtitles, resume and progress reporting,
+watched status, and other player-side integration.
+
 ## Current limitations
 
-- IINA playback progress is not reported back to Jellyfin. That requires a
-  companion IINA plugin and is the natural next milestone.
-- External subtitle selection and alternate-version selection are not exposed yet.
+- The launcher itself does not report playback progress or automatically load
+  external Jellyfin subtitles; use the recommended IINA companion plugin for
+  those features.
+- Alternate-version selection is not exposed yet.
 - Direct play only; there is no transcoding fallback.
 - The UI hook targets the server-hosted Jellyfin Web client. Native clients and
   clients with a bundled web UI do not receive the injected script.
