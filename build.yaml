@@ -1,0 +1,15 @@
+---
+name: "IINA Launcher"
+guid: "1586dd40-c469-4ed5-a71d-714b745adbb9"
+version: "0.1.0.0"
+targetAbi: "10.11.11.0"
+framework: "net9.0"
+overview: "Open Jellyfin videos directly in IINA"
+description: >
+  Adds an Open in IINA action to video More menus across Jellyfin Web.
+category: "General"
+owner: "yxwyoyoyo"
+artifacts:
+  - "Jellyfin.Plugin.Iina.dll"
+changelog: >
+  Initial development release.

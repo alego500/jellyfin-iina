@@ -1,0 +1,15 @@
+[tools]
+dotnet = "9.0.102"
+node = "26.5.0"
+
+[tasks.check]
+description = "Build the client and run all JavaScript and .NET tests"
+run = "npm run check"
+
+[tasks.package]
+description = "Build the installable Jellyfin plugin archive"
+run = "npm run package"
+
+[tasks."package-legacy"]
+description = "Build the installable plugin archive for Jellyfin 10.7.7"
+run = "npm run package:legacy"

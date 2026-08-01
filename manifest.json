@@ -1,0 +1,28 @@
+[
+  {
+    "category": "General",
+    "guid": "1586dd40-c469-4ed5-a71d-714b745adbb9",
+    "name": "IINA Launcher",
+    "description": "Adds an Open in IINA action to video More menus across Jellyfin Web.",
+    "owner": "yxwyoyoyo",
+    "overview": "Open Jellyfin videos directly in IINA",
+    "versions": [
+      {
+        "version": "0.1.0.0",
+        "changelog": "Initial public release with Home, list, and detail-page More menu support.",
+        "targetAbi": "10.11.11.0",
+        "sourceUrl": "https://github.com/yxwyoyoyo/jellyfin-iina/releases/download/v0.1.0/JellyfinIina_0.1.0.0.zip",
+        "checksum": "e87dba4fd1c768ea4785cef2e070c74e",
+        "timestamp": "2026-08-01T22:49:25Z"
+      },
+      {
+        "version": "0.1.0.0",
+        "changelog": "Initial public release with Home, list, and detail-page More menu support.",
+        "targetAbi": "10.7.7.0",
+        "sourceUrl": "https://github.com/yxwyoyoyo/jellyfin-iina/releases/download/v0.1.0/JellyfinIina_0.1.0.0_jf10.7.7.zip",
+        "checksum": "d830145b09ef7fcb3ad6e795f7c8df71",
+        "timestamp": "2026-08-01T22:49:25Z"
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+using Jellyfin.Plugin.Iina.Configuration;
+using Jellyfin.Plugin.Iina.Controllers;
+using Jellyfin.Plugin.Iina.Web;
+using Xunit;
+
+namespace Jellyfin.Plugin.Iina.Tests;
+
+public sealed class PluginTests
+{
+    [Theory]
+    [InlineData("/web", "")]
+    [InlineData("/web/", "")]
+    [InlineData("/web/index.html", "")]
+    [InlineData("/jellyfin/web", "/jellyfin")]
+    [InlineData("/jellyfin/web/", "/jellyfin")]
+    [InlineData("/jellyfin/web/index.html", "/jellyfin")]
+    public void WebIndexRequestsPreserveBasePath(string path, string expectedBasePath)
+    {
+        var matched = ScriptInjectionStartupFilter.TryGetBasePath(path, out var basePath);
+
+        Assert.True(matched);
+        Assert.Equal(expectedBasePath, basePath);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("/")]
+    [InlineData("/web/assets/client.js")]
+    [InlineData("/not-web")]
+    public void NonIndexRequestsAreIgnored(string? path)
+    {
+        Assert.False(ScriptInjectionStartupFilter.TryGetBasePath(path, out _));
+    }
+
+    [Fact]
+    public void PluginIsEnabledByDefault()
+    {
+        Assert.True(new PluginConfiguration().Enabled);
+    }
+
+    [Fact]
+    public void EmbeddedClientScriptCanBeServed()
+    {
+        var result = new ClientController().GetClientScript();
+
+        Assert.Contains("Open in IINA", result.Content, StringComparison.Ordinal);
+        Assert.Contains("jellyfinOpenInIinaMenuItem", result.Content, StringComparison.Ordinal);
+        Assert.Contains("iina://open", result.Content, StringComparison.Ordinal);
+        Assert.Equal("application/javascript; charset=utf-8", result.ContentType);
+    }
+}

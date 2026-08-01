@@ -1,0 +1,55 @@
+<div id="IinaLauncherConfigPage" data-role="page" class="page type-interior pluginConfigurationPage">
+    <div data-role="content">
+        <div class="content-primary">
+            <form id="IinaLauncherConfigForm">
+                <div class="sectionTitleContainer flex align-items-center">
+                    <h2 class="sectionTitle">IINA Launcher</h2>
+                </div>
+                <div class="verticalSection">
+                    <label class="emby-checkbox-label">
+                        <input id="IinaLauncherEnabled" type="checkbox" is="emby-checkbox" />
+                        <span>Show “Open in IINA” in Jellyfin Web</span>
+                    </label>
+                    <p class="fieldDescription">
+                        A browser may ask for confirmation before opening the IINA application.
+                        Refresh open Jellyfin Web tabs after changing this setting.
+                    </p>
+                </div>
+                <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                    <span>Save</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        (() => {
+            const pluginId = '1586dd40-c469-4ed5-a71d-714b745adbb9';
+            const page = document.querySelector('#IinaLauncherConfigPage');
+            const form = page.querySelector('#IinaLauncherConfigForm');
+            const enabled = page.querySelector('#IinaLauncherEnabled');
+
+            page.addEventListener('pageshow', async () => {
+                Dashboard.showLoadingMsg();
+                try {
+                    const config = await ApiClient.getPluginConfiguration(pluginId);
+                    enabled.checked = config.Enabled !== false;
+                } finally {
+                    Dashboard.hideLoadingMsg();
+                }
+            });
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                Dashboard.showLoadingMsg();
+                try {
+                    const config = await ApiClient.getPluginConfiguration(pluginId);
+                    config.Enabled = enabled.checked;
+                    const result = await ApiClient.updatePluginConfiguration(pluginId, config);
+                    Dashboard.processPluginConfigurationUpdateResult(result);
+                } finally {
+                    Dashboard.hideLoadingMsg();
+                }
+            });
+        })();
+    </script>
+</div>
