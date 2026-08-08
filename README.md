@@ -50,17 +50,18 @@ restart Jellyfin.
 
 ## Recommended IINA companion plugin
 
-For automatic Jellyfin subtitle loading and bi-directional playback-progress
-sync, install [mhajder/iina-jellyfin](https://github.com/mhajder/iina-jellyfin)
+For automatic Jellyfin subtitle availability and playback-progress reporting,
+install [IINA Jellyfin Companion](https://github.com/yxwyoyoyo/iina-jellyfin-companion)
 in IINA:
 
 1. Open IINA → Settings → Plugins.
 2. Choose **Install from GitHub…**.
-3. Enter `mhajder/iina-jellyfin`.
+3. Enter `yxwyoyoyo/iina-jellyfin-companion`.
 
 This Jellyfin server plugin supplies the **Open in IINA** action in Jellyfin
-Web. The companion IINA plugin handles subtitles, resume and progress reporting,
-watched status, and other player-side integration.
+Web and passes Jellyfin's saved start position. The companion plugin keeps
+embedded subtitles available, downloads every external subtitle, and reports
+playback progress back to Jellyfin.
 
 ## Current limitations
 
