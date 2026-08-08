@@ -16,10 +16,20 @@ export function isPlayableVideo(item) {
   );
 }
 
-export function buildIinaUrl({ streamUrl, fullscreen = false }) {
+export function buildIinaUrl({ streamUrl, startSeconds = 0, fullscreen = false }) {
   const url = new URL('iina://open');
   url.searchParams.set('url', streamUrl);
   url.searchParams.set('new_window', '1');
   if (fullscreen) url.searchParams.set('full_screen', '1');
+  const position = Number(startSeconds);
+  url.searchParams.set(
+    'mpv_start',
+    String(Number.isFinite(position) && position > 0 ? Math.floor(position) : 0)
+  );
   return url.toString();
+}
+
+export function resumeSeconds(item) {
+  const ticks = Number(item?.UserData?.PlaybackPositionTicks ?? 0);
+  return Number.isFinite(ticks) && ticks > 0 ? ticks / 10_000_000 : 0;
 }

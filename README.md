@@ -44,6 +44,8 @@ restart Jellyfin.
 - Movies, episodes, music videos, trailers, and other video items
 - Direct play through the same authenticated URL produced by Jellyfin Web’s
   **Copy Stream URL** action
+- Explicit playback positioning from Jellyfin, including a zero start position
+  for new videos
 - Jellyfin installations hosted under a URL base path
 
 ## Recommended IINA companion plugin

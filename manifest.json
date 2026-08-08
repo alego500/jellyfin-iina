@@ -8,6 +8,22 @@
     "overview": "Open Jellyfin videos directly in IINA",
     "versions": [
       {
+        "version": "0.1.2.0",
+        "changelog": "Always pass Jellyfin's playback position to IINA, including an explicit zero for videos without saved progress.",
+        "targetAbi": "10.11.11.0",
+        "sourceUrl": "https://github.com/yxwyoyoyo/jellyfin-iina/releases/download/v0.1.2/JellyfinIina_0.1.2.0.zip",
+        "checksum": "c671ec92d16f5c9ae335e6b9ca4432b0",
+        "timestamp": "2026-08-08T17:56:33Z"
+      },
+      {
+        "version": "0.1.2.0",
+        "changelog": "Always pass Jellyfin's playback position to IINA, including an explicit zero for videos without saved progress.",
+        "targetAbi": "10.7.7.0",
+        "sourceUrl": "https://github.com/yxwyoyoyo/jellyfin-iina/releases/download/v0.1.2/JellyfinIina_0.1.2.0_jf10.7.7.zip",
+        "checksum": "d1f11abfbee2f96572f9b930dbb4f2c5",
+        "timestamp": "2026-08-08T17:56:33Z"
+      },
+      {
         "version": "0.1.1.0",
         "changelog": "Prevent the launcher from overriding playback position; resume is delegated to the recommended IINA Jellyfin companion plugin.",
         "targetAbi": "10.11.11.0",

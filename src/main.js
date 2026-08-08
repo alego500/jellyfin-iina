@@ -1,7 +1,8 @@
 import {
   buildIinaUrl,
   getItemId,
-  isPlayableVideo
+  isPlayableVideo,
+  resumeSeconds
 } from './core.js';
 
 const MENU_ITEM_CLASS = 'jellyfinOpenInIinaMenuItem';
@@ -59,7 +60,10 @@ async function addMenuItem(actionSheet, itemId, request) {
     if (request !== requestId || !actionSheet.isConnected || !isPlayableVideo(item)) return;
 
     const streamUrl = apiClient.getItemDownloadUrl(item.Id);
-    const iinaUrl = buildIinaUrl({ streamUrl });
+    const iinaUrl = buildIinaUrl({
+      streamUrl,
+      startSeconds: resumeSeconds(item)
+    });
     const button = makeMenuItem(iinaUrl);
     const anchor = actionSheet.querySelector('[data-id="copy-stream"]')
       ?? actionSheet.querySelector('[data-id="download"]');
