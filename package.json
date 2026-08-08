@@ -1,6 +1,6 @@
 {
   "name": "jellyfin-plugin-iina",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "type": "module",
   "description": "A Jellyfin server plugin that opens videos directly in IINA.",

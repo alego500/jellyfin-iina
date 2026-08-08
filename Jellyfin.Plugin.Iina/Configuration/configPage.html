@@ -10,9 +10,15 @@
                         <input id="IinaLauncherEnabled" type="checkbox" is="emby-checkbox" />
                         <span>Show “Open in IINA” in Jellyfin Web</span>
                     </label>
+                    <label class="emby-checkbox-label">
+                        <input id="IinaLauncherReplaceCardPlayButton" type="checkbox" is="emby-checkbox" />
+                        <span>Use IINA for play buttons on item cards and detail pages</span>
+                    </label>
                     <p class="fieldDescription">
+                        When enabled, video play buttons on cards and detail pages open IINA instead of Jellyfin’s player.
+                        The “Open in IINA” More-menu action remains available either way.
                         A browser may ask for confirmation before opening the IINA application.
-                        Refresh open Jellyfin Web tabs after changing this setting.
+                        Changes take effect immediately in open Jellyfin Web tabs.
                     </p>
                 </div>
                 <button is="emby-button" type="submit" class="raised button-submit block emby-button">
@@ -27,12 +33,14 @@
             const page = document.querySelector('#IinaLauncherConfigPage');
             const form = page.querySelector('#IinaLauncherConfigForm');
             const enabled = page.querySelector('#IinaLauncherEnabled');
+            const replaceCardPlayButton = page.querySelector('#IinaLauncherReplaceCardPlayButton');
 
             page.addEventListener('pageshow', async () => {
                 Dashboard.showLoadingMsg();
                 try {
                     const config = await ApiClient.getPluginConfiguration(pluginId);
                     enabled.checked = config.Enabled !== false;
+                    replaceCardPlayButton.checked = config.ReplaceCardPlayButton !== false;
                 } finally {
                     Dashboard.hideLoadingMsg();
                 }
@@ -44,7 +52,17 @@
                 try {
                     const config = await ApiClient.getPluginConfiguration(pluginId);
                     config.Enabled = enabled.checked;
+                    config.ReplaceCardPlayButton = replaceCardPlayButton.checked;
                     const result = await ApiClient.updatePluginConfiguration(pluginId, config);
+                    const replaceValue = replaceCardPlayButton.checked;
+                    document.dispatchEvent(new CustomEvent('jellyfin-iina-config-changed', {
+                        detail: { replaceCardPlayButton: replaceValue }
+                    }));
+                    try {
+                        localStorage.setItem('jellyfin-iina-replace-card-play', String(replaceValue));
+                    } catch (error) {
+                        console.warn('[Jellyfin IINA] Could not notify other open tabs', error);
+                    }
                     Dashboard.processPluginConfigurationUpdateResult(result);
                 } finally {
                     Dashboard.hideLoadingMsg();

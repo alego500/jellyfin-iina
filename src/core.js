@@ -33,3 +33,9 @@ export function resumeSeconds(item) {
   const ticks = Number(item?.UserData?.PlaybackPositionTicks ?? 0);
   return Number.isFinite(ticks) && ticks > 0 ? ticks / 10_000_000 : 0;
 }
+
+export function restartIinaUrl(iinaUrl) {
+  const url = new URL(iinaUrl);
+  url.searchParams.set('mpv_start', '0');
+  return url.toString();
+}

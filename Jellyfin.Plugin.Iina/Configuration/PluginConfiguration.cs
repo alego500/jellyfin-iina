@@ -5,4 +5,6 @@ namespace Jellyfin.Plugin.Iina.Configuration;
 public sealed class PluginConfiguration : BasePluginConfiguration
 {
     public bool Enabled { get; set; } = true;
+
+    public bool ReplaceCardPlayButton { get; set; } = true;
 }

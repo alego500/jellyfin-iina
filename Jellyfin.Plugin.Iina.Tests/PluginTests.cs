@@ -36,7 +36,10 @@ public sealed class PluginTests
     [Fact]
     public void PluginIsEnabledByDefault()
     {
-        Assert.True(new PluginConfiguration().Enabled);
+        var configuration = new PluginConfiguration();
+
+        Assert.True(configuration.Enabled);
+        Assert.True(configuration.ReplaceCardPlayButton);
     }
 
     [Fact]
@@ -46,6 +49,11 @@ public sealed class PluginTests
 
         Assert.Contains("Open in IINA", result.Content, StringComparison.Ordinal);
         Assert.Contains("jellyfinOpenInIinaMenuItem", result.Content, StringComparison.Ordinal);
+        Assert.Contains("replaceCardPlay", result.Content, StringComparison.Ordinal);
+        Assert.Contains("jellyfin-iina-config-changed", result.Content, StringComparison.Ordinal);
+        Assert.Contains("btnReplay", result.Content, StringComparison.Ordinal);
+        Assert.Contains("NonPlayableItemError", result.Content, StringComparison.Ordinal);
+        Assert.Contains("resume", result.Content, StringComparison.Ordinal);
         Assert.Contains("iina://open", result.Content, StringComparison.Ordinal);
         Assert.Equal("application/javascript; charset=utf-8", result.ContentType);
     }

@@ -8,8 +8,8 @@ const legacy = process.argv.includes('--legacy');
 const targetAbi = legacy ? '10.7.7.0' : '10.11.11.0';
 const buildDirectory = legacy ? 'plugin-10.7.7' : 'plugin';
 const archiveName = legacy
-  ? 'JellyfinIina_0.1.2.0_jf10.7.7.zip'
-  : 'JellyfinIina_0.1.2.0.zip';
+  ? 'JellyfinIina_0.1.3.0_jf10.7.7.zip'
+  : 'JellyfinIina_0.1.3.0.zip';
 const staging = path.join(root, 'artifacts', legacy ? 'package-10.7.7' : 'package');
 const outputDirectory = path.join(root, 'out');
 const output = path.join(outputDirectory, archiveName);
@@ -21,15 +21,15 @@ await rm(output, { force: true });
 
 const meta = {
   category: 'General',
-  changelog: "Always pass Jellyfin's playback position to IINA, including an explicit zero for videos without saved progress.",
-  description: 'Adds an Open in IINA action to video More menus across Jellyfin Web.',
+  changelog: 'Optionally route native card and detail-page play buttons to IINA, with live setting updates, playback positioning, and silent handling of non-video menus.',
+  description: 'Adds Open in IINA actions across Jellyfin Web.',
   guid: '1586dd40-c469-4ed5-a71d-714b745adbb9',
   name: 'IINA Launcher',
   overview: 'Open Jellyfin videos directly in IINA',
   owner: 'yxwyoyoyo',
   targetAbi,
   timestamp: new Date().toISOString(),
-  version: '0.1.2.0'
+  version: '0.1.3.0'
 };
 
 await writeFile(path.join(staging, 'meta.json'), `${JSON.stringify(meta, null, 2)}\n`);

@@ -3,7 +3,8 @@
 A Jellyfin server plugin for macOS users. It adds an **Open in IINA** action to
 the **More** menu for playable videos across Jellyfin Web, including Home,
 library/list, and item detail pages, and asks IINA to direct-play the original
-file.
+file. By default, the native play and resume buttons on video cards and detail
+pages open the same item in IINA without changing Jellyfin’s button appearance.
 
 ## Requirements
 
@@ -25,6 +26,11 @@ file.
 5. Open **More** for a movie or episode, select **Open in IINA**, and allow the
    browser to open IINA when prompted.
 
+To restore Jellyfin’s normal play behavior, open **Dashboard** → **Plugins** →
+**IINA Launcher**, turn off **Use IINA for play buttons on item cards and detail
+pages**, and save. The change applies immediately to open Jellyfin Web tabs; the
+More-menu action remains available.
+
 The plugin injects its client script into the served Jellyfin Web page in memory.
 It does not modify `jellyfin-web/index.html` on disk and does not require a
 userscript manager.
@@ -42,6 +48,8 @@ restart Jellyfin.
 ## What the MVP supports
 
 - Movies, episodes, music videos, trailers, and other video items
+- Optional routing of native card and detail-page play buttons to IINA, enabled
+  by default
 - Direct play through the same authenticated URL produced by Jellyfin Web’s
   **Copy Stream URL** action
 - Explicit playback positioning from Jellyfin, including a zero start position

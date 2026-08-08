@@ -74,7 +74,10 @@ public sealed class ScriptInjectionStartupFilter : IStartupFilter
             var bodyEnd = html.LastIndexOf("</body>", StringComparison.OrdinalIgnoreCase);
             if (bodyEnd >= 0)
             {
-                var tag = $"<script defer src=\"{scriptUrl}\"></script>";
+                var replaceCardPlayButton = Plugin.Instance?.Configuration.ReplaceCardPlayButton != false
+                    ? "true"
+                    : "false";
+                var tag = $"<script defer src=\"{scriptUrl}\" data-replace-card-play=\"{replaceCardPlayButton}\"></script>";
                 html = string.Concat(html.AsSpan(0, bodyEnd), tag, "\n", html.AsSpan(bodyEnd));
                 _logger.LogDebug("Injected the IINA Launcher client into Jellyfin Web.");
             }

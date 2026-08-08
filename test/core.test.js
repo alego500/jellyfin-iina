@@ -5,6 +5,7 @@ import {
   buildIinaUrl,
   getItemId,
   isPlayableVideo,
+  restartIinaUrl,
   resumeSeconds
 } from '../src/core.js';
 
@@ -18,6 +19,7 @@ test('recognizes videos', () => {
   const item = { Id: 'abc', Type: 'Episode', MediaType: 'Video', MediaSources: [{ Id: 'source-1' }] };
   assert.equal(isPlayableVideo(item), true);
   assert.equal(isPlayableVideo({ Id: 'folder', Type: 'Folder' }), false);
+  assert.equal(isPlayableVideo({ Id: 'series', Type: 'Series' }), false);
 });
 
 test('explicitly starts new videos at the beginning', () => {
@@ -37,6 +39,14 @@ test('passes Jellyfin resume position to IINA', () => {
     startSeconds: 62.9
   });
   assert.equal(new URL(result).searchParams.get('mpv_start'), '62');
+});
+
+test('replay on a detail page starts from the beginning', () => {
+  const resumeUrl = buildIinaUrl({
+    streamUrl: 'https://media.test/Items/abc/Download?api_key=secret-token',
+    startSeconds: 62.9
+  });
+  assert.equal(new URL(restartIinaUrl(resumeUrl)).searchParams.get('mpv_start'), '0');
 });
 
 test('converts Jellyfin ticks to seconds', () => {
