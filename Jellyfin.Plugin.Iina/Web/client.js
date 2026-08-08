@@ -12,17 +12,12 @@
   function isPlayableVideo(item) {
     return Boolean(item?.Id) && (item.MediaType === "Video" || VIDEO_TYPES.has(item.Type));
   }
-  function buildIinaUrl({ streamUrl, startSeconds = 0, fullscreen = false }) {
+  function buildIinaUrl({ streamUrl, fullscreen = false }) {
     const url = new URL("iina://open");
     url.searchParams.set("url", streamUrl);
     url.searchParams.set("new_window", "1");
     if (fullscreen) url.searchParams.set("full_screen", "1");
-    if (startSeconds > 0) url.searchParams.set("mpv_start", String(Math.floor(startSeconds)));
     return url.toString();
-  }
-  function resumeSeconds(item) {
-    const ticks = Number(item?.UserData?.PlaybackPositionTicks ?? 0);
-    return Number.isFinite(ticks) && ticks > 0 ? ticks / 1e7 : 0;
   }
 
   // src/main.js
@@ -71,10 +66,7 @@
       const item = await apiClient.getItem(apiClient.getCurrentUserId(), itemId);
       if (request !== requestId || !actionSheet.isConnected || !isPlayableVideo(item)) return;
       const streamUrl = apiClient.getItemDownloadUrl(item.Id);
-      const iinaUrl = buildIinaUrl({
-        streamUrl,
-        startSeconds: resumeSeconds(item)
-      });
+      const iinaUrl = buildIinaUrl({ streamUrl });
       const button = makeMenuItem(iinaUrl);
       const anchor = actionSheet.querySelector('[data-id="copy-stream"]') ?? actionSheet.querySelector('[data-id="download"]');
       if (anchor) {
