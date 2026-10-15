@@ -1,17 +1,18 @@
 {
   "name": "jellyfin-plugin-iina",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "A Jellyfin server plugin that opens videos directly in IINA.",
   "scripts": {
     "build:client": "node scripts/build.mjs",
-    "build:plugin": "npm run build:client && mise exec -- dotnet publish Jellyfin.Plugin.Iina/Jellyfin.Plugin.Iina.csproj --configuration Release --output artifacts/plugin",
-    "build:plugin:legacy": "npm run build:client && mise exec -- dotnet publish Jellyfin.Plugin.Iina/Jellyfin.Plugin.Iina.csproj --configuration Release --output artifacts/plugin-10.7.7 -p:LegacyBuild=true",
+    "build:plugin": "npm run build:client && dotnet publish Jellyfin.Plugin.Iina/Jellyfin.Plugin.Iina.csproj --configuration Release --output artifacts/plugin",
+    "build:plugin:legacy": "npm run build:client && dotnet publish Jellyfin.Plugin.Iina/Jellyfin.Plugin.Iina.csproj --configuration Release --output artifacts/plugin-10.7.7 -p:LegacyBuild=true",
     "build": "npm run build:plugin",
     "package": "npm run build:plugin && node scripts/package-plugin.mjs",
     "package:legacy": "npm run build:plugin:legacy && node scripts/package-plugin.mjs --legacy",
-    "check": "npm run build:client && node --test && mise exec -- dotnet test Jellyfin.Plugin.Iina.Tests/Jellyfin.Plugin.Iina.Tests.csproj --configuration Release --warnaserror"
+    "test": "node --test",
+    "check": "npm run build:client && node --test && dotnet test Jellyfin.Plugin.Iina.Tests/Jellyfin.Plugin.Iina.Tests.csproj --configuration Release --warnaserror"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

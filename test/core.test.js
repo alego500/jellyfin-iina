@@ -30,7 +30,32 @@ test('explicitly starts new videos at the beginning', () => {
   assert.equal(url.host, 'open');
   assert.equal(url.searchParams.get('mpv_start'), '0');
   assert.equal(url.searchParams.has('mpv_http-header-fields'), false);
-  assert.equal(url.searchParams.get('url'), copyStreamUrl);
+  assert.equal(url.searchParams.get('url'), 'https://media.test/Items/abc/Download?ApiKey=secret-token');
+});
+
+test('normalizes old credentials without losing base paths or stream options', () => {
+  for (const key of ['api_key', 'api-key', 'X-Emby-Token', 'apikey', 'ApiKey']) {
+    const launch = new URL(buildIinaUrl({
+      streamUrl: `https://media.test/jellyfin/Items/abc/Download?static=true&${key}=secret%2Btoken`
+    }));
+    const media = new URL(launch.searchParams.get('url'));
+    assert.equal(media.pathname, '/jellyfin/Items/abc/Download');
+    assert.equal(media.searchParams.get('static'), 'true');
+    assert.equal(media.searchParams.get('ApiKey'), 'secret+token');
+    assert.equal([...media.searchParams.keys()].length, 2);
+  }
+});
+
+test('an explicit modern credential takes priority over a legacy credential', () => {
+  const launch = new URL(buildIinaUrl({
+    streamUrl: 'https://media.test/Items/abc/Download?api_key=old&ApiKey=current'
+  }));
+  assert.equal(launch.searchParams.get('url'), 'https://media.test/Items/abc/Download?ApiKey=current');
+});
+
+test('does not invent credentials for unauthenticated media URLs', () => {
+  const streamUrl = 'https://media.test/Items/abc/Download?static=true';
+  assert.equal(new URL(buildIinaUrl({ streamUrl })).searchParams.get('url'), streamUrl);
 });
 
 test('passes Jellyfin resume position to IINA', () => {

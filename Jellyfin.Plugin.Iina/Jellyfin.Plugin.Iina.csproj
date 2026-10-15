@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <TargetFramework Condition="'$(LegacyBuild)' == 'true'">net5.0</TargetFramework>
-    <JellyfinVersion>10.11.11</JellyfinVersion>
+    <JellyfinVersion>12.0.0</JellyfinVersion>
     <JellyfinVersion Condition="'$(LegacyBuild)' == 'true'">10.7.7</JellyfinVersion>
     <DefineConstants Condition="'$(LegacyBuild)' == 'true'">$(DefineConstants);JELLYFIN_10_7</DefineConstants>
     <RootNamespace>Jellyfin.Plugin.Iina</RootNamespace>

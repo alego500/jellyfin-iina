@@ -13,8 +13,14 @@
     return Boolean(item?.Id) && (item.MediaType === "Video" || VIDEO_TYPES.has(item.Type));
   }
   function buildIinaUrl({ streamUrl, startSeconds = 0, fullscreen = false }) {
+    const mediaUrl = new URL(streamUrl);
+    const tokenKeys = [...mediaUrl.searchParams.keys()].filter((key) => ["api_key", "api-key", "x-emby-token", "apikey"].includes(key.toLowerCase()));
+    const tokenKey = tokenKeys.find((key) => key.toLowerCase() === "apikey") ?? tokenKeys[0];
+    const token = tokenKey ? mediaUrl.searchParams.get(tokenKey) : null;
+    for (const key of tokenKeys) mediaUrl.searchParams.delete(key);
+    if (token) mediaUrl.searchParams.set("ApiKey", token);
     const url = new URL("iina://open");
-    url.searchParams.set("url", streamUrl);
+    url.searchParams.set("url", mediaUrl.toString());
     url.searchParams.set("new_window", "1");
     if (fullscreen) url.searchParams.set("full_screen", "1");
     const position = Number(startSeconds);

@@ -9,7 +9,8 @@ pages open the same item in IINA without changing Jellyfin’s button appearance
 ## Requirements
 
 - macOS with [IINA](https://iina.io/) installed
-- Jellyfin Server 10.7.7 or 10.11.11
+- Jellyfin Server 12.0.0 for the standard build, or 10.7.7 for the legacy build
+- Existing 10.11.11 installations can continue using the 0.1.3.0 release
 - A browser using the Jellyfin Web client served by that server
 
 ## Install
@@ -35,23 +36,25 @@ The plugin injects its client script into the served Jellyfin Web page in memory
 It does not modify `jellyfin-web/index.html` on disk and does not require a
 userscript manager.
 
-The repository manifest includes builds for both supported Jellyfin versions and
-the catalog automatically selects the compatible package.
+The repository manifest currently lists the existing 10.x releases. Until a
+Jellyfin 12 release is published and added to the manifest, build the plugin
+from source using the development commands below and install its ZIP manually.
 
 ### Manual installation
 
 Release ZIPs can also be extracted into Jellyfin's plugin directory, for example
 `/var/lib/jellyfin/plugins/IINA Launcher/`. Use the normal archive for Jellyfin
-10.11.11 or the archive ending in `_jf10.7.7.zip` for Jellyfin 10.7.7, then
-restart Jellyfin.
+12.0.0 (`JellyfinIina_0.2.0.0.zip`) or the archive ending in `_jf10.7.7.zip`
+for Jellyfin 10.7.7, then restart Jellyfin. Keep using the 0.1.3.0 archive for
+Jellyfin 10.11.11; the new standard build targets Jellyfin 12.
 
 ## What the MVP supports
 
 - Movies, episodes, music videos, trailers, and other video items
 - Optional routing of native card and detail-page play buttons to IINA, enabled
   by default
-- Direct play through the same authenticated URL produced by Jellyfin Web’s
-  **Copy Stream URL** action
+- Direct play through Jellyfin Web’s authenticated download URL, with older
+  token parameter spellings normalized to `ApiKey` for Jellyfin 12
 - Explicit playback positioning from Jellyfin, including a zero start position
   for new videos
 - Jellyfin installations hosted under a URL base path
@@ -93,3 +96,19 @@ mise run package-legacy
 
 Node and .NET versions are pinned in `mise.toml`. Installable archives are
 written to `out/`.
+
+## Jellyfin 12 compatibility
+
+The standard build targets .NET 10 and Jellyfin 12.0.0. The plugin ID is unchanged
+so the server recognizes it as an update. The separate Jellyfin 10.7.7 build
+still targets .NET 5.
+
+Jellyfin 12 rejects legacy `api_key` media URLs. Before opening IINA, the launcher
+normalizes that parameter to the supported `ApiKey` spelling. An existing modern
+credential takes priority over an older one; base paths, other stream options,
+and resume positions are preserved.
+
+`npm test` runs the JavaScript regression tests. `npm run check` rebuilds the
+embedded client and also runs the .NET tests with warnings treated as errors.
+The npm build commands use `dotnet` from PATH, so they work both inside mise and
+with Node and .NET installed directly.

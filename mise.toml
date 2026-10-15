@@ -1,5 +1,5 @@
 [tools]
-dotnet = "9.0.102"
+dotnet = "10.0.402"
 node = "26.5.0"
 
 [tasks.check]
